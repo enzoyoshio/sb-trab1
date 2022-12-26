@@ -1,4 +1,4 @@
-#include <bits/stdc++.h>
+#include <iostream>
 
 int main(int argc, char *argv[]) {
 
@@ -12,6 +12,8 @@ int main(int argc, char *argv[]) {
     std::cout << "informe o arquivo a ser montado, sem extensao" << std::endl;
     return 0;
   }
+
+  system("ls");
 
   switch(argv[1][1]) {
     case 'p':
