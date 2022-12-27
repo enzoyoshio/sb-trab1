@@ -121,7 +121,7 @@ namespace helper {
 
         for(auto it: v) {
             if(indexOf.find(it) != indexOf.end()) 
-                ret.push_back("#arg" + indexOf[it]);
+                ret.push_back("#arg" + std::to_string(indexOf[it]));
             else 
                 ret.push_back(it);
         }

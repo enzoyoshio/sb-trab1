@@ -44,7 +44,10 @@ namespace processa_macro {
                 while(tokens[0] != "endmacro") {
                     tokens = helper::get_next_valid_line(fileinput);
                     tokens = helper::tolower(tokens);
+                    //std::cout << "\n\nMACRO definition\n";
+                    //for(auto tk: tokens) std::cout << tk << ' '; std::cout << std::endl;
                     tokens = helper::update_arg(tokens, indexOf);
+                    //for(auto tk: tokens) std::cout << tk << ' '; std::cout << std::endl;
                     if(tokens[0] != "endmacro")
                         MDT[counter].push_back(tokens);
                 }
@@ -52,15 +55,20 @@ namespace processa_macro {
             } // chamado de macro
             else if(MNT.find(tokens[0]) != MNT.end()) {
  
-                int indexCounter = 1;
                 std::map<std::string, std::string> valueOf;
                 for(int i = 1; i < tokens.size(); i++)
                     valueOf["#arg" + std::to_string(i)] = tokens[i];
 
                 for(auto& tokens: MDT[MNT[tokens[0]]]) {
+                    
+                    //std::cout << "\n\nMacro caller\n";
+                    //for(auto tk: tokens) std::cout << tk << ' '; std::cout << std::endl;
                     for(auto& tkn: tokens)
                         if(valueOf.find(tkn) != valueOf.end())
                             tkn = valueOf[tkn];
+                    
+                    //for(auto tk: tokens) std::cout << tk << ' '; 
+                    //std::cout << std::endl;
                     helper::flushline(fileoutput, tokens);
                 }
                
