@@ -1,9 +1,4 @@
-#include <iostream>
-#include "helper.h"
-#include "pre_processador.h"
-#include "processa_macro.h"
-#include "processa_objeto.h"
-#include <fstream>
+#include "need.h"
 
 int main(int argc, char *argv[]) {
 
@@ -18,14 +13,15 @@ int main(int argc, char *argv[]) {
         return 0;
     }
 
+    std::string filename{argv[2]};
     switch(argv[1][1]) {
         case 'p':
         pre_processador::print();
-        pre_processador::processa(std::string{argv[2]});
+        pre_processador::processa(filename);
         break;
         case 'm':
         processa_macro::print();
-        std::cout << "processamento de macros do arquivo " << argv[2] << std::endl;
+        processa_macro::processa(filename);
         break;
         case 'o':
         processa_objeto::print();

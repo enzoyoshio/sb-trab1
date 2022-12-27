@@ -5,4 +5,5 @@
 
 namespace processa_macro {
     void print();
+    void processa(std::string filename);
 }

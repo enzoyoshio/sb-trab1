@@ -116,7 +116,18 @@ namespace helper {
         return tokens;
     }
 
+    std::vector<std::string> update_arg(std::vector<std::string> v, std::map<std::string, int> indexOf) {
+        std::vector<std::string> ret;
 
+        for(auto it: v) {
+            if(indexOf.find(it) != indexOf.end()) 
+                ret.push_back("#arg" + indexOf[it]);
+            else 
+                ret.push_back(it);
+        }
+
+        return ret;
+    }
 
 
 

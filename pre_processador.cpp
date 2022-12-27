@@ -46,11 +46,13 @@ namespace pre_processador {
             // tem um equ
             // vou fazer considerando que ele so vai colocar valores numericos
             // se sobrar tempo eu implemento pra fazer uma expressao 
-            if(tokens[1] == "equ") {
+            if(tokens.size() > 1 && tokens[1] == "equ") {
 
                 // removendo os ':' que indicam que eh uma label
-                std::string tkn = tokens[0].substr(0, tokens[0].size()-1);
-                
+                // std::string tkn = tokens[0].substr(0, tokens[0].size()-1);
+                std::string tkn = tokens[0];
+                tkn.pop_back();    
+
                 // aqui ja verifica se tem token repetido?
                 // ou sera q nunca vai ter?
                 tabela[tkn] = helper::str2num(tokens[2]);        
