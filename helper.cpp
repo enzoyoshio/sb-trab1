@@ -101,8 +101,10 @@ namespace helper {
 
     int str2num(std::string s) {
         if(s.substr(0, 2) == "0x") {
-            // hexadecimal
-            return -1;
+            std::stringstream ss(s);
+            int var;
+            ss >> std::hex >> var;
+            return var;
         }else return stoi(s);
     }
 
