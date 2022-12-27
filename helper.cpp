@@ -11,17 +11,7 @@ std::vector<std::string> helper::get_tokens(std::ifstream &file) {
 
     std::vector<std::string> tokens = parser(line, ' ');
 
-    int idx = tokens.size();
-
-    for(int i = (int)tokens.size()-1; i >= 0; i--) {
-        if(tokens[i] == ";") {
-            idx = i;
-            break;
-        }
-    }
-
-    while(tokens.size() > idx) tokens.pop_back();
-    return tokens; 
+    return tokens;
 }
 
 std::vector<std::string> helper::parser(std::string s, char c) {
@@ -35,4 +25,18 @@ std::vector<std::string> helper::parser(std::string s, char c) {
     }
 
     return ret;
+}
+
+std::vector<std::string> helper::remove_comments(std::vector<std::string> tokens) {
+    int idx = tokens.size();
+
+    for(int i = (int)tokens.size()-1; i >= 0; i--) {
+        if(tokens[i] == ";") {
+            idx = i;
+            break;
+        }
+    }
+
+    while(tokens.size() > idx) tokens.pop_back();
+    return tokens; 
 }

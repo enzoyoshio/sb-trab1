@@ -18,18 +18,6 @@ int main(int argc, char *argv[]) {
         return 0;
     }
     
-
-    std::string stringfile(argv[2]);
-    stringfile += ".asm";
-    std::ifstream file(stringfile);
- 
-    auto tokens = helper::get_tokens(file);
-    auto tokens2 = helper::get_tokens(file);
-
-    for(auto it: tokens) std::cout << it << ' '; std::cout << std::endl;
-    for(auto it: tokens2) std::cout << it << ' '; std::cout << std::endl;
-    return 0;
-
     switch(argv[1][1]) {
         case 'p':
         pre_processador::print();
