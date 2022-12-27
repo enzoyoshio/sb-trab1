@@ -3,5 +3,5 @@
 #include <iostream>
 
 void processa_objeto::print() {
-  std::cout << "transformando o codigo fonte em objeto :)" << std::endl;
+    std::cout << "transformando o codigo fonte em objeto :)" << std::endl;
 }

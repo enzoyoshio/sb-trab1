@@ -4,5 +4,5 @@
 #include <iostream>
 
 namespace processa_macro {
-  void print();
+    void print();
 }

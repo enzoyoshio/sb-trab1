@@ -3,3 +3,8 @@ a
 a.out
 a.exe
 *.exe
+*.o
+.vim
+*.vscode
+vscode.*
+.vimrc

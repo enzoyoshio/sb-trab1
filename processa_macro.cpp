@@ -2,5 +2,5 @@
 #include <iostream>
 
 void processa_macro::print() {
-  std::cout << "processando macro :)" << std::endl;
+    std::cout << "processando macro :)" << std::endl;
 }

@@ -3,5 +3,5 @@
 #include <string>
 
 namespace processa_objeto {
-  void print();
+    void print();
 }
