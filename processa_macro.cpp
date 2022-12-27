@@ -1,6 +1,8 @@
 #include "processa_macro.h"
 #include <iostream>
 
-void processa_macro::print() {
-    std::cout << "processando macro :)" << std::endl;
+namespace processa_macro {
+    void print() {
+        std::cout << "processando macro :)" << std::endl;
+    }
 }

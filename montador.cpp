@@ -1,8 +1,8 @@
 #include <iostream>
+#include "helper.h"
 #include "pre_processador.h"
 #include "processa_macro.h"
 #include "processa_objeto.h"
-#include "helper.h"
 #include <fstream>
 
 int main(int argc, char *argv[]) {
@@ -17,11 +17,11 @@ int main(int argc, char *argv[]) {
         std::cout << "informe o arquivo a ser montado, sem extensao" << std::endl;
         return 0;
     }
-    
+
     switch(argv[1][1]) {
         case 'p':
         pre_processador::print();
-        std::cout << "pre processamento do arquivo " << argv[2] << std::endl;
+        pre_processador::processa(std::string{argv[2]});
         break;
         case 'm':
         processa_macro::print();

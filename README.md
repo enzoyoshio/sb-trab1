@@ -13,7 +13,11 @@ Após isso, use o comando:
 
 Em que "x" tem que ser p, m ou o e "program" é o nome do código fonte sem a extensão asm.
 
-# duvidas da equipe
+## duvidas da equipe
 ~~preguiça de abrir uma issue ou coisa assim, bem mais facil usar o readme~~
 
 .as extensões vão ser maiúsculas ou minúsculas? ex: .ASM ou .asm ou não faz diferença?
+
+## quadro kanban? backlog? sla
+
+*aparentemente terminei o "-p" falta testar mais casos, mas pelo o que eu vi ja ta tirando os comentários e pré processando os EQU e IF.

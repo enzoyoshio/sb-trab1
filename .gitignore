@@ -8,3 +8,10 @@ a.exe
 *.vscode
 vscode.*
 .vimrc
+*.swp
+*.PRE
+*.pre
+*.OBJ
+*.obj
+*.MCR
+*.mcr
