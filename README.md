@@ -28,6 +28,6 @@ Em que "x" tem que ser p, m ou o e "program" é o nome do código fonte sem a ex
 
 **tanto no pre_proc quanto no proc_macro a gente pode ponderar refatorar deforma recursiva
 
-**comecano o proc_obj de uma forma mais recursiva**
+**comecano o proc_obj de uma forma mais recursiva (desisti, fui full procedural mas usei classe)**
 
 ***terminei bem por cima o montador, precisa melhorar a verificação de erros***
