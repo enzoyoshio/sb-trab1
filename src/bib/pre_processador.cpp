@@ -1,9 +1,4 @@
-#include "pre_processador.h"
-#include <string>
-#include <iostream>
-#include <fstream>
-#include "helper.h"
-#include <map>
+#include "need.h"
 
 namespace pre_processador {
     void print() {
@@ -31,46 +26,29 @@ namespace pre_processador {
         std::string line;
         std::map<std::string, int> tabela; 
 
-        // talvez pode trocar essas duas proximas linhas por
-        // while(std::vector<std::string> tokens = helper::remove_comments(helper::get_next_valid_line(fileinput)))
-        // mas tem que testar pra ver se da certo
-        // mas acho q sim
         while(getline(fileinput, line)) {
-            std::vector<std::string> tokens = helper::remove_comments(line);
+            processa_objeto::Line linha(line);
             
             // ignora linha em branco
-            if(tokens.empty()) continue;
+            if(linha.empty()) continue;
             
-            tokens = helper::tolower(tokens);
-
-            // tem um equ
-            // vou fazer considerando que ele so vai colocar valores numericos
-            // se sobrar tempo eu implemento pra fazer uma expressao 
-            if(tokens.size() > 1 && tokens[1] == "equ") {
-
-                // removendo os ':' que indicam que eh uma label
-                // std::string tkn = tokens[0].substr(0, tokens[0].size()-1);
-                std::string tkn = tokens[0];
-                tkn.pop_back();    
-
-                // aqui ja verifica se tem token repetido?
-                // ou sera q nunca vai ter?
-                tabela[tkn] = helper::str2num(tokens[2]);        
-            }else if(tokens[0] == "if") {
-                // caso seja uma expressao valida
-                // mantenho a proxima linha
-                if(tabela[tokens[1]]) {
-                    tokens = helper::get_next_valid_line(fileinput);
-                    tokens = helper::tolower(tokens);
-                    helper::flushline<std::string>(fileoutput, tokens);
-                }else {
-                    // caso nao seja uma expressao valida, apagar a proxima linha valida
-                    tokens = helper::get_next_valid_line(fileinput);
-                }
+            // de acordo com a especificacao
+            // if e equ sempre serao usados de forma correta
+            // fazendo como se n tivesse erro desse tipo
+            // se tiver uma linha
+            // rotulo: equ 
+            // vai dar erro, se der tempo corrigir
+            if(linha.operacao == "equ") {
+                tabela[linha.rotulo] = helper::str2num(linha.operadores[0]);
+            }else if(linha.operacao == "if") {
+                processa_objeto::Line linha2(helper::join(helper::get_next_valid_line(fileinput), ' '));
+                if(tabela[linha.operadores[0]])
+                    linha2.flush(fileoutput);
             }else {
-                // caso nao seja uma linha de equ nem de if
-                // retirar os comentarios e seguir a vida
-                helper::flushline<std::string>(fileoutput, tokens);
+                for(auto &it: linha.operadores)
+                    if(tabela.find(it) != tabela.end())
+                        it = std::to_string(tabela[it]);
+                linha.flush(fileoutput);
             }
         }
     }

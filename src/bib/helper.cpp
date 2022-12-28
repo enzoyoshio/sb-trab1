@@ -1,10 +1,4 @@
-#include "helper.h"
-#include <vector>
-#include <string>
-#include <iostream>
-#include <fstream>
-#include <sstream>
-#include <cctype>
+#include "need.h"
 
 namespace helper {
     std::vector<std::string> get_tokens(std::ifstream &file) {
@@ -45,16 +39,33 @@ namespace helper {
 
     std::vector<std::string> remove_comments(std::string s) {
         std::vector<std::string> tokens;
+        // separa por espaco 
         tokens = parser(s, ' ');
+
+        // se so tiver espaco na linha, retorna vazio
         if(tokens.empty()) return {};
 
+        // se o primeiro caractere diferente de espaco
+        // for ';' entao essa eh uma linha de comentario
         if(tokens[0][0] == ';') return {};
 
+        // irei separar pelo token de comentario
         tokens = parser(s, ';');
+        // se por algum motivo nao tiver nenhum token
+        // retorna vazio
         if(tokens.empty()) return {};
 
+        // pego o primeiro token
+        // parseio por espaco
         tokens = parser(tokens[0], ' ');
         return tokens; 
+    }
+
+    std::string join(std::vector<std::string> v, char c) {
+        std::string ret = "";
+        for(auto it: v) ret += it, ret += c;
+        if(ret.size()) ret.pop_back();
+        return ret;
     }
 
     std::string tolower(std::string s) {
@@ -131,10 +142,44 @@ namespace helper {
         return ret;
     }
 
+    std::string ltrim(std::string s) {
+        std::reverse(s.begin(), s.end());
+        while(s.size() && s.back() == ' ') s.pop_back();
+        std::reverse(s.begin(), s.end());
+        return s;
+    }
+
+    std::string rtrim(std::string s) {
+        while(s.size() && s.back() == ' ') s.pop_back();
+        return s;
+    }
 
 
+    std::string trim(std::string s) {
+        return ltrim(rtrim(s));
+    }
 
+    // de acordo com a especificacao 
+    // nao vai ter erro na macro
+    // entao seja que deus quiser
+    std::vector<std::string> get_macro_line(std::string s) {
+        std::vector<std::string> ret;
+        
+        // pega primeiro o label
+        std::vector<std::string> token = parser(s, ':');
+        ret.push_back(token[0]);
 
+        // separa agora a macro e args
+        token = parser(token[1], ' ');
+        ret.push_back(token[0]);
+
+        std::string args = "";
+        for(int i = 1; i < token.size(); i++) args += token[i] + " ";
+        token = parser(args, ',');
+        for(auto& it: token)
+            ret.push_back(trim(it));
+        return ret;
+    }
 
 
 

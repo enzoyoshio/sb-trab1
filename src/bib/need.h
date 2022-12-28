@@ -11,6 +11,8 @@
 #include <cctype>
 #include <cassert>
 #include <utility>
+#include <iterator>
+#include <algorithm>
 #include "processa_objeto.h"
 #include "pre_processador.h"
 #include "processa_macro.h"

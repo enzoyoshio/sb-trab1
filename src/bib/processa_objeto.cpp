@@ -21,16 +21,51 @@ namespace processa_objeto {
         this->linha = Line();
     }
 
+    void Line::flush(std::ofstream &fileoutput) {
+        if(this->vazio) return;
+
+        if(this->rotulo != "") 
+            fileoutput << this->rotulo << ": ";
+
+        if(this->operacao != "")
+            fileoutput << this->operacao << " ";
+
+        for(auto it: this->operadores)
+            fileoutput << it << ' ';
+        fileoutput << '\n';
+    }
+
+    bool Line::empty() {
+        return this->vazio;
+    }
+
     Line::Line() {}
 
     Line::Line(std::string s) {
 
+        s = helper::join(helper::remove_comments(s), ' ');
+
+        if(s.empty()) {
+            this->vazio = true;
+            return;
+        }
+        // std::cout << "\n\ndentro do line cosntructor\n";
+        // std::cout << s << '\n';
+
         auto pos = s.find(":");
-        
+        std::vector<std::string> tok;
         // caso nao exista label
         if(pos == std::string::npos) {
-            this->rotulo = ""; // nao existe rotulo
-            std::vector<std::string> tok = helper::parser(s, ' ');
+            this->rotulo = "";
+            tok = helper::parser(s, ' ');
+        }else {
+            tok = helper::parser(s, ':');
+            this->rotulo = tok[0];
+            if(tok.size() > 2) this->erro = 1; // erro duas label na msm linha
+            tok = helper::parser(tok[1], ' ');
+        }
+        
+        if(tok.size()) {
             this->operacao = tok[0];
             if(this->operacao == "copy") {
                 tok = helper::parser(tok[1], ',');
@@ -40,31 +75,18 @@ namespace processa_objeto {
                 for(int i = 1; i < tok.size(); i++)
                     this->operadores.push_back(tok[i]);
                 
-        }else {
-            std::vector<std::string> tok = helper::parser(s, ':');
-
-            if(tok.size() > 2) {
-                std::cout << "erro, mais de uma label criada na mesma linha" << std::endl;
-            }
-            // significa que so tem o rotulo nessa linha
-            this->rotulo = tok[0];
-            // considerar q nunca tem token sozinho, 
-            // depois eu vejo como arrumo isso 
-
-            tok = helper::parser(tok[1], ' ');
-            this->operacao = tok[0]; 
-            // adicionando o resto dos argumento;
-
-            if(this->operacao == "copy") {
-                tok = helper::parser(tok[2], ',');
-                for(auto it: tok)
-                    this->operadores.push_back(it);
-            }else
-                for(int i = 1; i < tok.size(); i++) 
-                    this->operadores.push_back(tok[i]);
-           
         }
+
+        this->rotulo = helper::trim(helper::tolower(this->rotulo));
+        this->operacao = helper::trim(helper::tolower(this->operacao));
+        for(auto &it: this->operadores)
+            it = helper::trim(helper::tolower(it));
     
+        // std::cout << "rotulo = " << this->rotulo << '\n';
+        // std::cout << "operacao = " << this->operacao << '\n';
+        // for(auto it: this->operadores)
+        //     std::cout << "operadores = " << it << ' ';
+        // std::cout << '\n';
     }
 
     Montador passagem1(std::string filename) {

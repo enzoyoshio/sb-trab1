@@ -1,6 +1,8 @@
 // fazer o processamento para objeto aqui
 #pragma once
 #include <string>
+#include <iostream>
+#include <fstream>
 
 namespace processa_objeto {
 
@@ -8,7 +10,11 @@ namespace processa_objeto {
         std::string rotulo;
         std::string operacao;
         std::vector<std::string> operadores;
+        bool vazio = 0;
+        bool erro = 0;
 
+        bool empty();
+        void flush(std::ofstream &fileoutput);
         Line();
         Line(std::string s);
     };

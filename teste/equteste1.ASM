@@ -1,6 +1,6 @@
 ; this is a commentary
 TOP: EQU 10
-LADAINHA: EQU 0 ; this is also a comentary
+LADAINHA : EQU 0 ; this is also a comentary
 
 SECTION TEXT
 
@@ -28,3 +28,5 @@ LOAD LAD
 SECTION DATA
 LAD: CONST 10
 ABC: SPACE
+TESTE: CONST TOP
+TESTE2: CONST LADAINHA
