@@ -27,3 +27,48 @@ Em que "x" tem que ser p, m ou o e "program" é o nome do código fonte sem a ex
 **comecano o proc_obj de uma forma mais recursiva (desisti, fui full procedural mas usei classe)**
 
 **terminei bem por cima o montador, precisa melhorar a verificação de erros**
+
+## requisitos
+
+- ~~Aceitar maiúsculas e minúsculas (insensitive case)~~
+
+- A diretiva CONST deve aceitar positivos, negativos e hexa no formato 0X (no arquivo de saida OBJ tudo deve estar em 
+decimal) 
+
+- ~~O comando COPY deve separar os argumentos por "," SEM espaço~~
+
+- ~~Desconsiderar todos os espaços, tabulações ou enter desnecessários~~ ja fazemos isso no pre processamento
+
+- Pode dar rótulo seguido de dois pontos e ENTER. O rótulo é considerado como da linha seguinte
+
+- SPACE pode aceitar argumento. Logo é possível fazer rótulos como X+2 (sem espaços)
+
+- Aceitar comentário em qualquer parte do código iniciado por ; (o comentário deve ser removido no pré-processamento de EQU e IF)
+
+## identificação de erros
+
+- Dois rótulos na mesma linha
+
+- Rótulo não definido
+
+- Dado não definido
+
+- Quantidade de argumentos errada
+
+- Seção TEXT faltante
+
+- Instrução ou diretiva inexistente
+
+- Erros léxicos (caracteres especiais ou número iniciando nos rótulos)
+
+**OBS: devemos indicar se o erro é LÉXICO, SINTÁTICO OU SEMÂNTICO**
+
+## notas
+
+- lembrar que section é uma diretiva
+
+## aqui descrever algumas características do nosso compilador
+
+- nas definições de macro, definimos os argumentos por virgula
+
+- mas na chamada de macro não tem virgula

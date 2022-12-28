@@ -43,8 +43,7 @@ namespace processa_objeto {
             {"store", 11},
             {"input", 12},
             {"output", 13},
-            {"stop", 14},
-            {"section", 15}
+            {"stop", 14}
         };
 
         // tamanho que a instrucao ocupa na memoria 
@@ -62,21 +61,24 @@ namespace processa_objeto {
             {"store", 2},
             {"input", 2},
             {"output", 2},
-            {"stop", 1},
-            {"section", 0}
+            {"stop", 1}
         };
-        std::map<std::string, int> tabela_simbolo = {
-            {"text", 0},
-            {"data", 0}
-        };
+
+        std::map<std::string, int> tabela_simbolo;
 
         std::set<std::string> diretivas = {
             "space",
-            "const"
+            "const", 
+            "section"
         };
         std::vector<short> memory;
-        std::vector<std::string> errors;   
+        // pair 
+        // first -> tipo de erro
+        // second -> mensagem do erro
+        std::vector<std::pair<std::string, std::string>> errors;   
         Montador();
+
+        void print_error();
     };
 
     void print();

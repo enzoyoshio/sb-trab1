@@ -292,9 +292,20 @@ namespace processa_objeto {
         std::ofstream fileoutput(filename + ".OBJ");
         while(m.memory.back() == -1) m.memory.pop_back(); // gambiarra pra dar certo
         for(int i = 0; i < m.memory.size(); i++) if(m.memory[i] == -1) m.memory[i] = 0; // mais gambiarra
-        helper::flushline<short>(fileoutput, m.memory);
+        
+        if(m.errors.size())
+            m.print_error();
+        else
+            helper::flushline<short>(fileoutput, m.memory);
     
         fileoutput.close();
+    }
+
+    void Montador::print_error() {
+        for(auto [type, msg]: this->errors) {
+            std::cout << "\n\nerro do tipo " << type << std::endl;
+            std::cout << msg << std::endl;
+        } 
     }
 
 }
