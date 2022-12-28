@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <map>
+#include "processa_objeto.h"
 
 namespace processa_macro {
     void print();
@@ -16,5 +17,5 @@ namespace processa_macro {
                      std::map<std::string, int> &MNT,
         std::map<int, std::vector<std::vector<std::string>>> &MDT, 
                      int &counter,
-                     std::string line);
+                     processa_objeto::Line linha);
 }

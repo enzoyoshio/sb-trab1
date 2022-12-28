@@ -27,9 +27,12 @@ namespace processa_macro {
             std::vector<std::string> tokens = helper::remove_comments(line);
             processa_objeto::Line linha(line);
 
-            if(tokens.empty()) continue;
+            if(linha.empty()) continue;
 
-            tokens = helper::tolower(tokens);
+            // definicao de macro 
+            if(linha.operacao == "macro") {
+                save_macro(fileinput, MNT, MDT, counter, linha);
+            }
 
             // definicao de macro
             if(tokens.size() > 1 && tokens[1] == "macro") {
@@ -66,27 +69,28 @@ namespace processa_macro {
                      std::map<std::string, int> &MNT,
         std::map<int, std::vector<std::vector<std::string>>> &MDT, 
                      int &counter,
-                     std::string line) {
+                     processa_objeto::Line linha) {
 
-        std::vector<std::string> tokens = helper::get_macro_line(line);
+        // std::vector<std::string> tokens = helper::get_macro_line(line);
 
-        MNT[tokens[0]] = ++counter;
+        // MNT[linha.rotulo] = ++counter;
 
-        int indexCounter = 1;
-        std::map<std::string, int> indexOf;
-        for(int i = 2; i < tokens.size(); i++)
-            indexOf[tokens[i]] = indexCounter++;
+        // int indexCounter = 1;
+        // std::map<std::string, int> indexOf;
+        // for(auto it: linha.operadores) 
+        //     indexOf[it] = indexCounter++;
 
-        while(tokens[0] != "endmacro") {
-            tokens = helper::get_next_valid_line(fileinput);
-            tokens = helper::tolower(tokens);
-            //std::cout << "\n\nMACRO definition\n";
-            //for(auto tk: tokens) std::cout << tk << ' '; std::cout << std::endl;
-            tokens = helper::update_arg(tokens, indexOf);
-            //for(auto tk: tokens) std::cout << tk << ' '; std::cout << std::endl;
-            if(tokens[0] != "endmacro")
-                MDT[counter].push_back(tokens);
-        }
+        // while(linha.operacao != "endmacro") {
+
+        //     tokens = helper::get_next_valid_line(fileinput);
+        //     tokens = helper::tolower(tokens);
+        //     //std::cout << "\n\nMACRO definition\n";
+        //     //for(auto tk: tokens) std::cout << tk << ' '; std::cout << std::endl;
+        //     tokens = helper::update_arg(tokens, indexOf);
+        //     //for(auto tk: tokens) std::cout << tk << ' '; std::cout << std::endl;
+        //     if(tokens[0] != "endmacro")
+        //         MDT[counter].push_back(tokens);
+        // }
     }
 
     // void flush_macro(std::ifstream &inputfile, 

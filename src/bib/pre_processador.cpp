@@ -23,11 +23,11 @@ namespace pre_processador {
         // o EQU vai ser estar fora da secao TEXT
         // no inicio do arquivo
         // basta a gente acreditar que os testes serao assim
-        std::string line;
+        // std::string line;
         std::map<std::string, int> tabela; 
-
-        while(getline(fileinput, line)) {
-            processa_objeto::Line linha(line);
+        processa_objeto::Line linha;
+        while(linha.read(fileinput)) {
+            // processa_objeto::Line linha(line);
             
             // ignora linha em branco
             if(linha.empty()) continue;
@@ -51,5 +51,8 @@ namespace pre_processador {
                 linha.flush(fileoutput);
             }
         }
+
+        fileinput.close();
+        fileoutput.close();
     }
 }

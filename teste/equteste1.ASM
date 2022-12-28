@@ -1,3 +1,5 @@
+; teste para ver se o pre processador esta funcionando
+; se apaga comentario e linhas desnecessarias
 ; this is a commentary
 TOP: EQU 10
 LADAINHA : EQU 0 ; this is also a comentary

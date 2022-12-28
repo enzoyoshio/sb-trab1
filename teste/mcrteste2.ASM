@@ -1,9 +1,10 @@
-; teste simples para ver se o montador troca 
-; a macro 
+; teste pra ver se uma macro consegue chamar outra macro
+
 section text
 swap: macro &a &b &c
 copy &a &c
 copy &b &a
+mul_n
 copy &c &b
 endmacro
 

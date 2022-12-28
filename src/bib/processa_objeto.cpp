@@ -21,6 +21,14 @@ namespace processa_objeto {
         this->linha = Line();
     }
 
+    bool Line::read(std::ifstream &fileinput) {
+        // if(fileinput.eof()) return false;
+        std::string s;
+        getline(fileinput, s);
+        *this = (Line(s));
+        return (!fileinput.eof()) || (!this->empty());
+    }
+
     void Line::flush(std::ofstream &fileoutput) {
         if(this->vazio) return;
 
@@ -67,7 +75,7 @@ namespace processa_objeto {
         
         if(tok.size()) {
             this->operacao = tok[0];
-            if(this->operacao == "copy") {
+            if(this->operacao == "copy" || this->operacao == "macro") {
                 tok = helper::parser(tok[1], ',');
                 for(auto it: tok)
                     this->operadores.push_back(it);
