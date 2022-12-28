@@ -1,10 +1,10 @@
 ; teste simples para ver se o montador troca 
 ; a macro 
 section text
-swap: macro &a &b &c
-copy &a &c
-copy &b &a
-copy &c &b
+swap: macro &a,&b,&c
+copy &a,&c
+copy &b,&a
+copy &c,&b
 endmacro
 
 mul_n: macro

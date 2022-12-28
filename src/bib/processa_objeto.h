@@ -16,6 +16,8 @@ namespace processa_objeto {
         bool empty();
         void flush(std::ofstream &fileoutput);
         bool read(std::ifstream &fileinput);
+        void update_arg(std::map<std::string, int> indexOf);
+        void print();
         Line();
         Line(std::string s);
     };

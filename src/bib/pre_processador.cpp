@@ -27,7 +27,7 @@ namespace pre_processador {
         std::map<std::string, int> tabela; 
         processa_objeto::Line linha;
         while(linha.read(fileinput)) {
-            // processa_objeto::Line linha(line);
+            // std::cout << "inicio do while\n";
             
             // ignora linha em branco
             if(linha.empty()) continue;
@@ -50,6 +50,7 @@ namespace pre_processador {
                         it = std::to_string(tabela[it]);
                 linha.flush(fileoutput);
             }
+            // std::cout << "fim do while\n";
         }
 
         fileinput.close();

@@ -12,10 +12,11 @@ namespace processa_macro {
     void flush_macro(std::ifstream &inputfile, 
                      std::ofstream &outputfile, 
                      std::map<std::string, int> MNT,
-        std::map<int, std::vector<std::vector<std::string>>> MDT);
+        std::map<int, std::vector<processa_objeto::Line>> MDT,
+                     processa_objeto::Line linha);
     void save_macro(std::ifstream &fileinput, 
                      std::map<std::string, int> &MNT,
-        std::map<int, std::vector<std::vector<std::string>>> &MDT, 
+        std::map<int, std::vector<processa_objeto::Line>> &MDT, 
                      int &counter,
                      processa_objeto::Line linha);
 }

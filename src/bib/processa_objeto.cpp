@@ -21,6 +21,10 @@ namespace processa_objeto {
         this->linha = Line();
     }
 
+    void Line::update_arg(std::map<std::string, int> indexOf) {
+        this->operadores = helper::update_arg(this->operadores, indexOf);
+    }
+
     bool Line::read(std::ifstream &fileinput) {
         // if(fileinput.eof()) return false;
         std::string s;
@@ -35,12 +39,23 @@ namespace processa_objeto {
         if(this->rotulo != "") 
             fileoutput << this->rotulo << ": ";
 
-        if(this->operacao != "")
+        if(this->operacao != "") {
             fileoutput << this->operacao << " ";
+            char c = ' ';
+            if(this->operacao == "copy" || this->operacao == "macro")
+                c = ',';
 
-        for(auto it: this->operadores)
-            fileoutput << it << ' ';
-        fileoutput << '\n';
+            std::string s;
+            for(auto it: this->operadores)
+                s += it, s += c;
+            if(s.size()) {
+                s.pop_back();
+                fileoutput << s;
+            }
+            fileoutput << '\n';
+
+        }
+
     }
 
     bool Line::empty() {
@@ -75,14 +90,17 @@ namespace processa_objeto {
         
         if(tok.size()) {
             this->operacao = tok[0];
-            if(this->operacao == "copy" || this->operacao == "macro") {
+            // vou levar aluns pontos em consideracao
+            if(this->operacao == "copy") {
                 tok = helper::parser(tok[1], ',');
-                for(auto it: tok)
-                    this->operadores.push_back(it);
-            }else 
-                for(int i = 1; i < tok.size(); i++)
-                    this->operadores.push_back(tok[i]);
-                
+            }else {
+                tok.erase(tok.begin());
+                if(this->operacao == "macro") {
+                    tok = helper::parser(helper::join(tok, ' '), ',');
+                }
+            } 
+            for(auto it: tok)
+                this->operadores.push_back(it);    
         }
 
         this->rotulo = helper::trim(helper::tolower(this->rotulo));
@@ -90,11 +108,15 @@ namespace processa_objeto {
         for(auto &it: this->operadores)
             it = helper::trim(helper::tolower(it));
     
-        // std::cout << "rotulo = " << this->rotulo << '\n';
-        // std::cout << "operacao = " << this->operacao << '\n';
-        // for(auto it: this->operadores)
-        //     std::cout << "operadores = " << it << ' ';
-        // std::cout << '\n';
+        // this->print();
+    }
+
+    void Line::print() {
+        std::cout << "rotulo = " << this->rotulo << '\n';
+        std::cout << "operacao = " << this->operacao << '\n';
+        for(auto it: this->operadores)
+            std::cout << "operadores = " << it << ' ';
+        std::cout << '\n';
     }
 
     Montador passagem1(std::string filename) {
@@ -179,6 +201,7 @@ namespace processa_objeto {
             std::cout << "fim do while\n";
             m.contador_linha += 1;
         }
+        fileinput.close();
 
         return m;
     }
@@ -270,6 +293,8 @@ namespace processa_objeto {
         while(m.memory.back() == -1) m.memory.pop_back(); // gambiarra pra dar certo
         for(int i = 0; i < m.memory.size(); i++) if(m.memory[i] == -1) m.memory[i] = 0; // mais gambiarra
         helper::flushline<short>(fileoutput, m.memory);
+    
+        fileoutput.close();
     }
 
 }
