@@ -24,7 +24,6 @@ namespace processa_objeto {
 
     struct Montador {
 
-        Line linha;
         int contador_linha;
         int contador_posicao_memoria;
         // dada uma instr, informa o opcode dela
