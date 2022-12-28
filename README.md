@@ -43,7 +43,7 @@ decimal)
 
 - SPACE pode aceitar argumento. Logo é possível fazer rótulos como X+2 (sem espaços)
 
-- Aceitar comentário em qualquer parte do código iniciado por ; (o comentário deve ser removido no pré-processamento de EQU e IF)
+- ~~Aceitar comentário em qualquer parte do código iniciado por ; (o comentário deve ser removido no pré-processamento de EQU e IF)~~
 
 ## identificação de erros
 
