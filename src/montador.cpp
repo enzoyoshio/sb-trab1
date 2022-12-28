@@ -25,7 +25,7 @@ int main(int argc, char *argv[]) {
         break;
         case 'o':
         processa_objeto::print();
-        std::cout << "criando arquivo objeto do arquivo " << argv[2] << std::endl;
+        processa_objeto::processa(filename);
         break;
         // se der tempo fazer um help
         // bem simples por que so tem tres opcoes
