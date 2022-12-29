@@ -63,6 +63,9 @@ namespace processa_macro {
         std::map<int, std::vector<processa_objeto::Line>> &MDT, 
                      int &counter,
                      processa_objeto::Line linha) {
+
+        linha.print();
+
         MNT[linha.rotulo] = ++counter;
 
         int indexCounter = 1;

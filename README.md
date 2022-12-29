@@ -33,33 +33,33 @@ Em que "x" tem que ser p, m ou o e "program" é o nome do código fonte sem a ex
 - ~~Aceitar maiúsculas e minúsculas (insensitive case)~~
 
 - A diretiva CONST deve aceitar positivos, negativos e hexa no formato 0X (no arquivo de saida OBJ tudo deve estar em 
-decimal) 
+decimal) -> fiz mas tem que testar
 
 - ~~O comando COPY deve separar os argumentos por "," SEM espaço~~
 
 - ~~Desconsiderar todos os espaços, tabulações ou enter desnecessários~~ ja fazemos isso no pre processamento
 
-- Pode dar rótulo seguido de dois pontos e ENTER. O rótulo é considerado como da linha seguinte
+- Pode dar rótulo seguido de dois pontos e ENTER. O rótulo é considerado como da linha seguinte -> fiz mas tem que testar ver se ta certo
 
-- SPACE pode aceitar argumento. Logo é possível fazer rótulos como X+2 (sem espaços)
+- SPACE pode aceitar argumento. Logo é possível fazer rótulos como X+2 (sem espaços) -> fiz mas tem que testar
 
 - ~~Aceitar comentário em qualquer parte do código iniciado por ; (o comentário deve ser removido no pré-processamento de EQU e IF)~~
 
 ## identificação de erros
 
-- Dois rótulos na mesma linha
+- Dois rótulos na mesma linha -> fiz, ta localizado no construtor da linha, tenho que arrumar e testar
 
-- Rótulo não definido
+- Rótulo não definido -> fiz, ta na segunda passagem, criar caso de teste para isso
 
-- Dado não definido
+- Dado não definido -> mesma situacao da opçao acima
 
-- Quantidade de argumentos errada
+- Quantidade de argumentos errada -> mesma coisa acima
 
-- Seção TEXT faltante
+- Seção TEXT faltante -> mesma coisa acima
 
-- Instrução ou diretiva inexistente
+- Instrução ou diretiva inexistente -> mesma coisa acima
 
-- Erros léxicos (caracteres especiais ou número iniciando nos rótulos)
+- Erros léxicos (caracteres especiais ou número iniciando nos rótulos) -> faustino
 
 **OBS: devemos indicar se o erro é LÉXICO, SINTÁTICO OU SEMÂNTICO**
 

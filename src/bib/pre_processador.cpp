@@ -45,9 +45,12 @@ namespace pre_processador {
                 if(tabela[linha.operadores[0]])
                     linha2.flush(fileoutput);
             }else {
+                // std::cout << "\n\ntentando entender isso aqui\n";
+                // linha.print();
                 for(auto &it: linha.operadores)
                     if(tabela.find(it) != tabela.end())
                         it = std::to_string(tabela[it]);
+                // linha.print();
                 linha.flush(fileoutput);
             }
             // std::cout << "fim do while\n";
