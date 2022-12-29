@@ -84,7 +84,7 @@ namespace processa_objeto {
         }else {
             tok = helper::parser(s, ':');
             this->rotulo = tok[0];
-            if(tok.size() > 2) this->erro = 1; // erro duas label na msm linha
+            if(tok.size() > 2) this->erro = true; // erro duas label na msm linha
             tok = helper::parser(tok[1], ' ');
         }
         
@@ -107,7 +107,7 @@ namespace processa_objeto {
         this->operacao = helper::trim(helper::tolower(this->operacao));
         for(auto &it: this->operadores)
             it = helper::trim(helper::tolower(it));
-    
+        //FAZER ERRO LEXIO
         // this->print();
     }
 

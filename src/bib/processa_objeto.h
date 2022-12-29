@@ -74,6 +74,7 @@ namespace processa_objeto {
         // pair 
         // first -> tipo de erro
         // second -> mensagem do erro
+        //faustino -> fazer struct de erro e mudar aqui 
         std::vector<std::pair<std::string, std::string>> errors;   
         Montador();
 
@@ -83,7 +84,6 @@ namespace processa_objeto {
     void print();
     
     void processa(std::string filename);
-    // tem que arrumar a assinatura depois
     Montador passagem1(std::string filename);
     void passagem2(std::string filename, Montador m);
 
