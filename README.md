@@ -32,16 +32,16 @@ Em que "x" tem que ser p, m ou o e "program" é o nome do código fonte sem a ex
 
 - ~~Aceitar maiúsculas e minúsculas (insensitive case)~~
 
-- A diretiva CONST deve aceitar positivos, negativos e hexa no formato 0X (no arquivo de saida OBJ tudo deve estar em 
-decimal) -> fiz mas tem que testar
+- ~~A diretiva CONST deve aceitar positivos, negativos e hexa no formato 0X (no arquivo de saida OBJ tudo deve estar em 
+decimal)~~ -> fiz mas tem que testar
 
 - ~~O comando COPY deve separar os argumentos por "," SEM espaço~~
 
 - ~~Desconsiderar todos os espaços, tabulações ou enter desnecessários~~ ja fazemos isso no pre processamento
 
-- Pode dar rótulo seguido de dois pontos e ENTER. O rótulo é considerado como da linha seguinte -> fiz mas tem que testar ver se ta certo
+- ~~Pode dar rótulo seguido de dois pontos e ENTER. O rótulo é considerado como da linha seguinte~~ -> fiz mas tem que testar ver se ta certo
 
-- SPACE pode aceitar argumento. Logo é possível fazer rótulos como X+2 (sem espaços) -> fiz mas tem que testar
+- ~~SPACE pode aceitar argumento. Logo é possível fazer rótulos como X+2 (sem espaços)~~ -> fiz mas tem que testar
 
 - ~~Aceitar comentário em qualquer parte do código iniciado por ; (o comentário deve ser removido no pré-processamento de EQU e IF)~~
 
