@@ -25,18 +25,13 @@ namespace helper {
     std::string rtrim(std::string s);
     std::vector<std::string> get_macro_line(std::string);
     
-    // depois ver overloading
-    // std::ofstream &operator<<(std::ofstream &file, std::vector<T> v); 
-    // por algum motivo nao to conseguindo fazer isso funcionar jogando a 
-    // implementacao no .cpp
-    // sou burro?
     template <typename T>
     void flushline(std::ofstream &file, std::vector<T> v) {
         for(auto it: v) file << it << ' '; file << '\n';
     }
 
 
-    // se der tempo, fazer funcao para computar uma expressao
+    //ARRUMAR se der tempo, fazer funcao para computar uma expressao
     int compute(std::string s);
     bool checkSymbol(std::string s, std::map<std::string, int> ts);
     bool isnumber(std::string s);

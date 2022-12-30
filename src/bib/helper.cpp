@@ -1,6 +1,8 @@
 #include "need.h"
 
 namespace helper {
+
+    //pega os tokens
     std::vector<std::string> get_tokens(std::ifstream &file) {
         std::string line;
         getline(file, line);
@@ -10,6 +12,7 @@ namespace helper {
         return tokens;
     }
 
+    //ARRUMAR
     std::vector<std::string> parser(std::string s, char c) {
         std::stringstream check(s);
         std::string aux;
@@ -23,6 +26,7 @@ namespace helper {
         return ret;
     }
 
+    //remove os comentarios
     std::vector<std::string> remove_comments(std::vector<std::string> tokens) {
         int idx = tokens.size();
 
@@ -42,21 +46,21 @@ namespace helper {
         // separa por espaco 
         tokens = parser(s, ' ');
 
-        // se so tiver espaco na linha, retorna vazio
+        // se so hover espacos na linha, retorna vazio
         if(tokens.empty()) return {};
 
-        // se o primeiro caractere diferente de espaco
-        // for ';' entao essa eh uma linha de comentario
+        // se o primeiro caractere for diferente de espaco
+        // se ';' entao essa eh uma linha de comentario
         if(tokens[0][0] == ';') return {};
 
         // irei separar pelo token de comentario
         tokens = parser(s, ';');
-        // se por algum motivo nao tiver nenhum token
+        // se nao tiver nenhum token
         // retorna vazio
         if(tokens.empty()) return {};
 
-        // pego o primeiro token
-        // parseio por espaco
+        // pega o primeiro token
+        // parseia por espaco
         tokens = parser(tokens[0], ' ');
         return tokens; 
     }
@@ -68,48 +72,35 @@ namespace helper {
         return ret;
     }
 
+    //tolower para strings
     std::string tolower(std::string s) {
         std::string ret = "";
         for(auto ch: s) ret += std::tolower(ch);
         return ret;
     }
 
+    //tolower para vetor de string
     std::vector<std::string> tolower(std::vector<std::string> s) {
         std::vector<std::string> ret;
         for(auto word: s) ret.push_back(helper::tolower(word));
         return ret;
     }
 
+    //toupper para strings
     std::string toupper(std::string s) {
         std::string ret = "";
         for(auto ch: s) ret += std::toupper(ch);
         return ret;
     }
 
+    //toupper para vetor de string
     std::vector<std::string> toupper(std::vector<std::string> s) {
         std::vector<std::string> ret;
         for(auto word: s) ret.push_back(helper::toupper(word));
         return ret;
     }
 
-    /*
-    template <typename T>
-    std::ofstream &operator<<(std::ofstream &file, std::vector<T> v) {
-        for(auto it: v) file << it << ' ';
-        file << '\n';
-
-        return file;
-    }
-    */
-
-    /*
-    template <typename T>
-    void flushline(std::ofstream &file, std::vector<T> v) {
-        for(auto it: v) file << it << ' ';
-        file << '\n';
-    }
-    */
-
+    //converte hexadecimal para inteiro
     int str2num(std::string s) {
         if(s.substr(0, 2) == "0x") {
             std::stringstream ss(s);
@@ -119,6 +110,7 @@ namespace helper {
         }else return stoi(s);
     }
 
+    //pega proxima linha valida
     std::vector<std::string> get_next_valid_line(std::ifstream &file) {
         std::string s;
         std::vector<std::string> tokens;
@@ -129,6 +121,7 @@ namespace helper {
         return tokens;
     }
 
+    //atualiza ARRUMAR
     std::vector<std::string> update_arg(std::vector<std::string> v, std::map<std::string, int> indexOf) {
         std::vector<std::string> ret;
 
@@ -142,18 +135,17 @@ namespace helper {
         return ret;
     }
 
+    //remove espacos
     std::string ltrim(std::string s) {
         std::reverse(s.begin(), s.end());
         while(s.size() && s.back() == ' ') s.pop_back();
         std::reverse(s.begin(), s.end());
         return s;
     }
-
     std::string rtrim(std::string s) {
         while(s.size() && s.back() == ' ') s.pop_back();
         return s;
     }
-
 
     std::string trim(std::string s) {
         return ltrim(rtrim(s));
@@ -161,7 +153,6 @@ namespace helper {
 
     // de acordo com a especificacao 
     // nao vai ter erro na macro
-    // entao seja que deus quiser
     std::vector<std::string> get_macro_line(std::string s) {
         std::vector<std::string> ret;
         
@@ -169,7 +160,7 @@ namespace helper {
         std::vector<std::string> token = parser(s, ':');
         ret.push_back(token[0]);
 
-        // separa agora a macro e args
+        // separa a macro e args
         token = parser(token[1], ' ');
         ret.push_back(token[0]);
 
@@ -217,15 +208,16 @@ namespace helper {
         return false;
     }
 
+    //isnumber para string
     bool isnumber(std::string s) {
         if(s == "") return false;
-
         if(s[0] == '+' && isdigit(s.substr(1))) return true;
         if(s[0] == '-' && isdigit(s.substr(1))) return true;
         if(s.substr(0, 2) == "0x" && isdigit(s.substr(2))) return true;
         return isdigit(s);
     }
 
+    //isdigit para string //  QUAL a  diferenca do  is number pra is digit nesse caso? ARRUMAR
     bool isdigit(std::string s) {
         for(auto ch: s)
             if(!std::isdigit(ch))

@@ -7,6 +7,9 @@
 namespace processa_objeto {
 
     struct Erro{
+        // Struct Erro 
+        // tipo -> tipo de erro
+        // mensagem -> mensagem do erro 
         std::string tipo;
         std::string mensagem;
 
@@ -80,9 +83,7 @@ namespace processa_objeto {
             "section"
         };
         std::vector<short> memory;
-        // Struct Erro 
-        // tipo -> tipo de erro
-        // mensagem -> mensagem do erro 
+
         std::vector<Erro> errors;   
         Montador();
 

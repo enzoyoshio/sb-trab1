@@ -1,19 +1,25 @@
 #include "need.h"
 
 namespace processa_macro {
+    //mensagem para alertar que o processamento da macro ocorreu
+
+    //ARRUMAR, precisa desse cout e do "arquivo inexistente :("?
     void print() {
         std::cout << "processando macro :)" << std::endl;
     }
 
     void processa(std::string filename) {
-        
+
+        //pega o nome do arquivo e adiciona a extensao
         std::string finput = filename + ".PRE";
         std::ifstream fileinput(finput);
 
+        //se nao houver arquivo, ou ele n estiver aberto
         if(!fileinput.is_open()) {
             std::cout << "Arquivo inexistente :(" << std::endl;
             return;
         }
+        //pega o nome do arquivo e adiciona a extensao
 
         std::string foutput = filename + ".MCR";
         std::ofstream fileoutput(foutput);
@@ -26,20 +32,7 @@ namespace processa_macro {
         std::string line;
         processa_objeto::Line linha;
         while(linha.read(fileinput)) {
-            // std::cout << "\n\nprocessando essa linha\n";
-            // linha.print();
-
-            // std::cout << "\n\n";
-            // if(MDT.size() > db) {
-            //     db = MDT.size();
-            //     std::cout << "ese eh uma ocorrencia da mdt\n";
-            //     for(auto [id, l]: MDT) {
-            //         std::cout << "ocorrencia " << id << '\n';
-            //         for(auto c: l)
-            //             c.print();
-            //     }
-            // }
-
+            //se a linha for vazia
             if(linha.empty()) continue;
 
             // definicao de macro 
@@ -57,7 +50,8 @@ namespace processa_macro {
         
     }
 
-    // save macro in MNT and MDT
+    // salva o macro nas tabelas MNT e MDT
+    //ARRUMAR
     void save_macro(std::ifstream &fileinput, 
                      std::map<std::string, int> &MNT,
         std::map<int, std::vector<processa_objeto::Line>> &MDT, 
@@ -73,52 +67,29 @@ namespace processa_macro {
         for(auto it: linha.operadores) 
             indexOf[it] = indexCounter++;
         
-        // std::cout << "\n\nDentro de save macro\n";
-        // std::cout << "listando indexOf\n";
-        // for(auto [it, id]: indexOf) 
-        //     std::cout << "indexOf[ " << it << " ] = " << id << '\n';
 
         while(linha.read(fileinput) && linha.operacao != "endmacro") {
-            // std::cout << "\nAntes de update\n";
-            // linha.print();
             linha.update_arg(indexOf);
-            // std::cout << "\nDepois do update\n";
-            // linha.print();
-
             MDT[counter].push_back(linha);
         }
     }
 
-    // changes macro caller for its definition
+    // changes macro caller for its definition ARRUMAR
     void flush_macro(std::ifstream &inputfile, 
                      std::ofstream &outputfile, 
                      std::map<std::string, int> MNT,
         std::map<int, std::vector<processa_objeto::Line>> MDT,
         processa_objeto::Line linha) {
-        
-        // std::cout << "\ndentro da flush macro\n";
-        // linha.print();
 
         std::map<std::string, std::string> valueOf;
         for(int i = 0; i < linha.operadores.size(); i++) 
             valueOf["#arg" + std::to_string(i+1)] = linha.operadores[i];
 
-        // std::cout << "\n";
-        // for(auto [id, val]: valueOf) 
-        //     std::cout << "valueOf[ " << id << " ] = " <<  val << '\n';
-
-        // for(int i = 0; i < tokens.size(); i++)
-        //     valueOf["#arg" + std::to_string(i)] = tokens[i];
-
         for(auto &l: MDT[MNT[linha.operacao]]) {
 
-            // std::cout << "\n\nantes de att\n";
-            // l.print();
             for(auto& op: l.operadores)
                 if(valueOf.find(op) != valueOf.end()) 
                     op = valueOf[op];
-            // std::cout << "\napos atualizar\n";
-            // l.print();
 
             if(MNT.find(l.operacao) != MNT.end()) 
                 flush_macro(inputfile, outputfile, MNT, MDT, l);
