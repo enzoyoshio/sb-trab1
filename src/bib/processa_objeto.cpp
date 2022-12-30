@@ -154,7 +154,16 @@ namespace processa_objeto {
 
             // se existe algum rotulo
             if(rot != "") {
-
+                
+                //nao sei se aqui é melhor lugar, mas foi onde entendi q dava pra colocar, qualquer coisa muda
+                //verifica se o rotulo comeca com numero
+                if(rot[0]>= '0' or rot[0] <= '9'){
+                    err.emplace_back("lexico", "simbolo comeca com numero, o simbolo " + rot +
+                            " na linha " + std::to_string(linecount));
+                }else if(helper::checkRot(rot)){//verifica se o rotulo possui algum caracter especial
+                    err.emplace_back("lexico", "uso invalido de caracteres no simbolo " + rot + 
+                            " na linha " + std::to_string(linecount));
+                }
                 // se eu ja tiver definido esse simbolo
                 if(ts.find(rot) != ts.end()) {
                     // jogar erro, redefinicao de simbolo
@@ -165,6 +174,7 @@ namespace processa_objeto {
                 }else { // nao defini ainda, vou definir agora
                     ts[rot] = mempos;
                 }
+                
             }
 
             // verificar a operacao

@@ -41,4 +41,5 @@ namespace helper {
     bool checkSymbol(std::string s, std::map<std::string, int> ts);
     bool isnumber(std::string s);
     bool isdigit(std::string s);
+    bool checkRot(std::string s);
 }

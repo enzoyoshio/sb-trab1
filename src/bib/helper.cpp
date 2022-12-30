@@ -203,6 +203,20 @@ namespace helper {
         return false;
     }
 
+    bool checkRot(std::string s){
+        for(char c: s){
+            bool flag = true;
+            //se for alguma letra do alfabeto, numero ou "_" a letra eh valida para o roluto, se nao ela n eh valida e retorna true
+            if( (c >= 'a' and c <='z')
+            or (c >= 'A' and c <='Z') 
+            or (c >= '0' and c <='9') 
+            or (c == '_'))flag = false;
+            if(flag) return true;
+        }
+
+        return false;
+    }
+
     bool isnumber(std::string s) {
         if(s == "") return false;
 
