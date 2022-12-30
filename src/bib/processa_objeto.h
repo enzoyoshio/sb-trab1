@@ -6,6 +6,15 @@
 
 namespace processa_objeto {
 
+    struct Erro{
+        std::string tipo;
+        std::string mensagem;
+
+        //ajuda na hora de usar funcoes como o emplace_back, sem a necessidade de criar uma variavel auxiliar
+        Erro(std::string tipo, std::string mensagem):tipo(tipo),  mensagem(mensagem){};
+
+    };
+
     struct Line {
         std::string rotulo;
         std::string operacao;
@@ -71,11 +80,10 @@ namespace processa_objeto {
             "section"
         };
         std::vector<short> memory;
-        // pair 
-        // first -> tipo de erro
-        // second -> mensagem do erro
-        //faustino -> fazer struct de erro e mudar aqui 
-        std::vector<std::pair<std::string, std::string>> errors;   
+        // Struct Erro 
+        // tipo -> tipo de erro
+        // mensagem -> mensagem do erro 
+        std::vector<Erro> errors;   
         Montador();
 
         void print_error();
