@@ -119,8 +119,6 @@ namespace processa_objeto {
         this->operacao = helper::trim(helper::tolower(this->operacao));
         for(auto &it: this->operadores)
             it = helper::trim(helper::tolower(it));
-        //FAZER ERRO LEXICO
-        // this->print();
     }
 
     void Line::print() {
@@ -135,7 +133,7 @@ namespace processa_objeto {
         
         Montador m{};
 
-        auto& [linecount, mempos, t_inst, t_size, ts, t_dir, mem, err] = m;
+        auto& [linecount, mempos, tabelaInstrucao, tabelaTamanho, tabelaSimbolo, tabelaDiretivas, memoria, erros] = m;
 
         linecount = 1;
         mempos = 0;
@@ -150,66 +148,51 @@ namespace processa_objeto {
 
         Line linha;
         while(linha.read(fileinput))  {
-            auto& [rot, ope, ops, vazio, erro] = linha;
+            auto& [rotulo, operadores, operacao, vazio, erro] = linha;
 
             // se existe algum rotulo
-            if(rot != "") {
-                //std::cout << "entrou1" << std::endl;
-                
-                //nao sei se aqui é melhor lugar, mas foi onde entendi q dava pra colocar, qualquer coisa muda
-                //verifica se o rotulo comeca com numero
-                // if(rot[0] >= '0' and rot[0] <= '9'){
-                //     std::cout << "entrou2" << std::endl;
-                //     err.emplace_back("lexico", "simbolo comeca com numero, o simbolo " + rot +
-                //             " na linha " + std::to_string(linecount));
-                // }else if(helper::checkRot(rot)){//verifica se o rotulo possui algum caracter especial
-                //     std::cout << "entrou3" << std::endl;
-                //     err.emplace_back("lexico", "uso invalido de caracteres no simbolo " + rot + 
-                //             " na linha " + std::to_string(linecount));
-                // }
+            if(rotulo != "") {
                 // se eu ja tiver definido esse simbolo
-                if(ts.find(rot) != ts.end()) {
+                if(tabelaSimbolo.find(rotulo) != tabelaSimbolo.end()) {
                     // jogar erro, redefinicao de simbolo
-                    // std::cout << "erro, redefinicao do simbolo " << linha.rotulo 
-                    // << " na linha " << linecount << std::endl;
-                    err.emplace_back("semantico", "redefinicao do simbolo " + rot + 
+                    erros.emplace_back("semantico", "redefinicao do simbolo " + rotulo + 
                             " na linha " + std::to_string(linecount));
                 }else { // nao defini ainda, vou definir agora
-                    ts[rot] = mempos;
+                    tabelaSimbolo[rotulo] = mempos;
                 }
                 
             }
 
             // verificar a operacao
-            // if(ope == "") { 
+            // if(operadores == "") { 
             //     // caso da pessoa ter dado enter,
             //     // nao sei anida como resolver -> mas nao precisa desse if
             //     // apenas ignora, o endereco na memoria nao muda
             // } // se eu achar essa operacao na tabela de instrucao 
-            if(t_inst.find(ope) != t_inst.end()) {
-                mempos += t_size[ope];
-            }else if(ope != "") {
+            if(tabelaInstrucao.find(operadores) != tabelaInstrucao.end()) {
+                mempos += tabelaTamanho[operadores];
+            }else if(operadores != "") {
 
                 // se a operacao for uma diretiva
-                if(t_dir.find(ope) != t_dir.end()) {
-                    if(ope == "space") {
-                        if(ops.size() > 1) {
+                if(tabelaDiretivas.find(operadores) != tabelaDiretivas.end()) {
+                    if(operadores == "space") {
+                        if(operacao.size() > 1) {
                             std::cout << "lembra de colocar erro aqui" << std::endl;
                             // adicionar erro, quantidade de parametros muito grande
                             // vou adicionar um erro aqui mas talvez tenha que mudar
-                            err.emplace_back("sintatico", "muitos argumentos pro comando space na linha " + std::to_string(linecount));
-                        }else if(ops.size() == 1) {
-                            mempos += helper::str2num(ops[0]);
+                            erros.emplace_back("sintatico", "muitos argumentos pro comando space na linha " + std::to_string(linecount));
+                        }else if(operacao.size() == 1) {
+                            mempos += helper::str2num(operacao[0]);
                         }else mempos++;
                     } 
-                    else if(ope == "const")
+                    else if(operadores == "const")
                         mempos++;
                     
                     
                 }else {
-                    std::cout << "operacao " << ope 
+                    std::cout << "operacao " << operadores 
                     << " nao identificada na linha " << linecount << std::endl;
-                    err.emplace_back("sintatico", "operacao " + ope + " nao identificada na linha " + std::to_string(linecount));
+                    erros.emplace_back("sintatico", "operacao " + operadores + " nao identificada na linha " + std::to_string(linecount));
                 }
             }
             linecount++;
@@ -222,18 +205,21 @@ namespace processa_objeto {
     }
     
     void passagem2(std::string filename, Montador m) {
-        
-        auto& [linecount, mempos, t_inst, t_size, ts, t_dir, mem, err] = m;
+        // linecount = contador de linha
+        //mempos =  posicao da memoria
+        //o resto das variaveis sao bem auto explicativas
+        auto& [linecount, mempos, tabelaInstrucao, tabelaTamanho, tabelaSimbolo, tabelaDiretivas, memoria, erros] = m;
 
 
-        std::cout << "cheguei na passagem2\n";
+        //std::cout << "cheguei na passagem2\n";
 
         mempos = 0;
         linecount = 2;
-
+        //pega o nome do arquivo e adiciona a extencao
         std::string finput = filename + ".MCR";
         std::ifstream fileinput(finput);
 
+        //se nao houver arquivo
         if(!fileinput) {
             std::cout << "arquivo nao encontrado :(" << std::endl;
             return;
@@ -241,107 +227,113 @@ namespace processa_objeto {
 
         Line linha, last;
 
+        //le o arquivo
         linha.read(fileinput);
 
+        //se houver rotulo
         if(linha.rotulo != "") {
             m.errors.emplace_back("sintatico", "nao permitido o uso de rotulo fora das sections");
         }
 
+        //tem q ARRUMAR e falar se é sintatico ou semântico 
         if(linha.operacao != "section") {
             m.errors.emplace_back("sintatico ou semantico ?", "secao text faltante");
         }
 
+        //equanto tiver arquivo para ler
         while(linha.read(fileinput)) {
-            auto& [rot, ope, ops, vazio, erro] = linha;
+
+            //decalara as variaveis baseado  nos valores lidos na linha
+            auto& [rotulo, operadores, operacao, vazio, erro] = linha;
 
             if(erro) {
-                // adicionar os erros lexicos e talz
                 // no momento esta pegando so o erro de dois rotulos na mesma linha
-                err.emplace_back("sintatico", "nao pode haver dois rotulos na mesma linha");
+                erros.emplace_back("sintatico", "nao pode haver dois rotulos na mesma linha");
             }
 
-            // verificar se tem um simbolo fora da tabela de simbolo
-            // jogar erro se tiver
-            //verifica se o rotulo comeca com numero
-
-
-            if(ope != "section") {
-                for(auto sim: ops) {
-                    if(!helper::checkSymbol(sim, ts)) {
-                        std::cout << "erro, simbolo " << sim << " nao definido" << std::endl;
-                        err.emplace_back("semantico", "simbolo " + sim + " nao definido na linha " + std::to_string(linecount));
-                    }
-                    if(sim[0] >= '0' and sim[0] <= '9'){
-                        std::cout << "entrou2" << std::endl;
-                        err.emplace_back("lexico", "simbolo comeca com numero, o simbolo " + sim +
+            if(operadores != "section") {
+                for(auto simbolo: operacao) {
+                    bool eh_simbolo = helper::checkSymbol(simbolo, tabelaSimbolo);
+                    if(simbolo[0] >= '0' and simbolo[0] <= '9' and !eh_simbolo){// verifica se o rotulo comeca com numero
+                        erros.emplace_back("lexico", "simbolo comeca com numero, o simbolo " + simbolo +
                         " na linha " + std::to_string(linecount));
-                    }else if(helper::checkSim(sim)){//verifica se o Simulo possui algum caracter especial
-                    std::cout << "entrou3" << std::endl;
-                    err.emplace_back("lexico", "uso invalido de caracteres no simbolo " + sim + 
-                            " na linha " + std::to_string(linecount));
+                    }else if(helper::checkSim(simbolo) and !eh_simbolo){
+                        //verifica se o Simbulo possui algum caracter especial
+                        erros.emplace_back("lexico", "uso invalido de caracteres no simbolo " + simbolo + 
+                        " na linha " + std::to_string(linecount));
+                    }else if(!eh_simbolo) {
+                        // verificar se tem um simbolo fora da tabela de simbolo
+                        // jogar erro se tiver
+                        std::cout << "erro, simbolo " << simbolo << " nao definido" << std::endl;
+                        erros.emplace_back("semantico", "simbolo " + simbolo + " nao definido na linha " + std::to_string(linecount));
                     }
+                    
+                    
                 }
             }
 
-            // checar se eu acho a operacao na tabela de instrucao
-            if(t_inst.find(ope) != t_inst.end()) {
+            // checar se existe a operacao na tabela de instrucao
+            if(tabelaInstrucao.find(operadores) != tabelaInstrucao.end()) {
 
                 // checar se tem a quantidade certa de operandos
-                if(ops.size() != t_size[ope] -1) {
-                    std::cout << "quantidade de argumentos invalida na linha " << linecount << std::endl;
-                    err.emplace_back("sintatico", "quantidade de argumentos invalida na linha " + std::to_string(linecount));
+                if(operacao.size() != tabelaTamanho[operadores] -1) {
+                    //std::cout << "quantidade de argumentos invalida na linha " << linecount << std::endl;
+                    erros.emplace_back("sintatico", "quantidade de argumentos invalida na linha " + std::to_string(linecount));
                 }
 
-                // falando na memoria qual o opcode da instrucao
-                mem[mempos++] = t_inst[ope];
-                // para cada arguemnto eu falo qual o valor deve receber
-                for(auto op: ops) {
-                    // se for um simbolo eu falo onde na memoria ele esta localizado
-                    if(ts.find(op) != ts.end()) 
-                        mem[mempos++] = ts[op];
-                    else if(helper::checkSymbol(op, ts)) {
-                        // se for um numero eu coloco o valor do numero
+                //qual o opcode da instrucao na memoria
+                memoria[mempos++] = tabelaInstrucao[operadores];
+                // para cada arguemnto determina qual o valor deve receber
+                for(auto op: operacao) {
+                    // se for um simbolo mostra onde na memoria ele esta localizado
+                    if(tabelaSimbolo.find(op) != tabelaSimbolo.end()) 
+                        memoria[mempos++] = tabelaSimbolo[op];
+                    else if(helper::checkSymbol(op, tabelaSimbolo)) {
+                        // se for um numero eu coloca o valor do numero
                         if(helper::isnumber(op)) 
-                            mem[mempos++] = helper::str2num(op);
+                            memoria[mempos++] = helper::str2num(op);
                         else { // se for um vetor do tipo X+2
                             std::vector<std::string> v = helper::parser(op, '+');
-                            mem[mempos++] = ts[v[0]] + helper::str2num(v[1]);
+                            memoria[mempos++] = tabelaSimbolo[v[0]] + helper::str2num(v[1]);
                         }
                     } 
                 }
             }else {
-                // vou procurar se eh uma diretiva agora
-                if(t_dir.find(ope) != t_dir.end()) {
+                //determina se eh uma diretiva
+                if(tabelaDiretivas.find(operadores) != tabelaDiretivas.end()) {
                     // se for um space
-                    if(ope == "space") {
+                    if(operadores == "space") {
                         // checar se tem um ou zero argumentos
-                        if(ops.size() > 1) {
-                            err.emplace_back("sintatico", "numero de argumentos invalido para a diretiva const na linha " + std::to_string(linecount));
-                        }else if(ops.empty()) {
-                            mem[mempos++] = 0;
-                        }else if(helper::isnumber(ops[0])) {
-                            for(int i = 0; i < helper::str2num(ops[0]); i++)
-                                mem[mempos++] = 0;
-                        }else {
-                            err.emplace_back("semantico ou lexico", "simbolo invalido na linha " + std::to_string(linecount));
+                        if(operacao.size() > 1) {
+                            erros.emplace_back("sintatico", "numero de argumentos invalido para a diretiva const na linha " + std::to_string(linecount));
+                        }else if(operacao.empty()) {
+                            memoria[mempos++] = 0;
+                        }else if(helper::isnumber(operacao[0])) {//checar se eh um numero
+                            for(int i = 0; i < helper::str2num(operacao[0]); i++)
+                                memoria[mempos++] = 0;
+                        }else {//se todos os casos falharem da erro
+                        //ARRUMAR determinar se é erro lexico ou sintatico
+                            erros.emplace_back("semantico ou lexico", "simbolo invalido na linha " + std::to_string(linecount));
                         }
                     } // se for const
-                    else if(ope == "const") {
-                        if(ops.size() != 1) {
-                            err.emplace_back("sintatico", "numero de argumentos invalido para a diretiva const na linha " + std::to_string(linecount));
-                        }else if(helper::isnumber(ops[0])) {
-                            mem[mempos++] = helper::str2num(ops[0]);
+                    else if(operadores == "const") {
+                        if(operacao.size() != 1) {//verifica se possui o numero correto de argumentos
+                            erros.emplace_back("sintatico", "numero de argumentos invalido para a diretiva const na linha " + std::to_string(linecount));
+                        }else if(helper::isnumber(operacao[0])) {//verifica se o primeiro valor eh um numero
+                            memoria[mempos++] = helper::str2num(operacao[0]);
                         }else {
-                            err.emplace_back("semantico ou lexico", "simbolo invalido na linha " + std::to_string(linecount));
+                            //ARRUMAR determinar se é erro lexico ou sintatico
+                            erros.emplace_back("semantico ou lexico", "simbolo invalido na linha " + std::to_string(linecount));
                         }
                     }
-
-                    if(ope == "section" && last.rotulo != "" && last.operacao == "") {
-                        err.emplace_back("semantico", "rotulo vazio na linha " + std::to_string(linecount-1));
+                    //verifica se o rotulo esta vazio
+                    if(operadores == "section" && last.rotulo != "" && last.operacao == "") {
+                        erros.emplace_back("semantico", "rotulo vazio na linha " + std::to_string(linecount-1));
                     }
-                }else if(ope != "") {
+                }else if(operadores != "") {
+                    //verifica se a operacao  existe
                     std::cout << "operacao nao identificada" << std::endl;
-                    err.emplace_back("sintatico", "o comando " + ope + " na linha " 
+                    erros.emplace_back("sintatico", "o comando " + operadores + " na linha " 
                                     + std::to_string(linecount) + " nao existe");
                 }
             }
@@ -349,17 +341,17 @@ namespace processa_objeto {
             linecount++;
             last = linha;
         }
-        // so tem erro de rotulo numa linha e definicao em outra
-        // se for um rotulo vazio no final ne?
+        //verifica se o rotulo esta vazio
         if(linha.rotulo != "") {
-            err.emplace_back("semantico", "rotulo vazio na linha " + std::to_string(linecount));
+            erros.emplace_back("semantico", "rotulo vazio na linha " + std::to_string(linecount));
         }
 
         // depois ver de refatorar isso 
         std::ofstream fileoutput(filename + ".OBJ");
-        while(m.memory.back() == -1) m.memory.pop_back(); // gambiarra pra dar certo
-        for(int i = 0; i < m.memory.size(); i++) if(m.memory[i] == -1) m.memory[i] = 0; // mais gambiarra
+        while(m.memory.back() == -1) m.memory.pop_back(); // Enquanto houver memoria
+        for(int i = 0; i < m.memory.size(); i++) if(m.memory[i] == -1) m.memory[i] = 0; // limpa a memoria? ARRUMAR
         
+        //se houver erros mostra eles. Se nao houver, compila o codigo? ARRUMAR
         if(m.errors.size())
             m.print_error();
         else
