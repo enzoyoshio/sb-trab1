@@ -154,16 +154,19 @@ namespace processa_objeto {
 
             // se existe algum rotulo
             if(rot != "") {
+                //std::cout << "entrou1" << std::endl;
                 
                 //nao sei se aqui é melhor lugar, mas foi onde entendi q dava pra colocar, qualquer coisa muda
                 //verifica se o rotulo comeca com numero
-                if(rot[0]>= '0' or rot[0] <= '9'){
-                    err.emplace_back("lexico", "simbolo comeca com numero, o simbolo " + rot +
-                            " na linha " + std::to_string(linecount));
-                }else if(helper::checkRot(rot)){//verifica se o rotulo possui algum caracter especial
-                    err.emplace_back("lexico", "uso invalido de caracteres no simbolo " + rot + 
-                            " na linha " + std::to_string(linecount));
-                }
+                // if(rot[0] >= '0' and rot[0] <= '9'){
+                //     std::cout << "entrou2" << std::endl;
+                //     err.emplace_back("lexico", "simbolo comeca com numero, o simbolo " + rot +
+                //             " na linha " + std::to_string(linecount));
+                // }else if(helper::checkRot(rot)){//verifica se o rotulo possui algum caracter especial
+                //     std::cout << "entrou3" << std::endl;
+                //     err.emplace_back("lexico", "uso invalido de caracteres no simbolo " + rot + 
+                //             " na linha " + std::to_string(linecount));
+                // }
                 // se eu ja tiver definido esse simbolo
                 if(ts.find(rot) != ts.end()) {
                     // jogar erro, redefinicao de simbolo
@@ -259,11 +262,23 @@ namespace processa_objeto {
 
             // verificar se tem um simbolo fora da tabela de simbolo
             // jogar erro se tiver
+            //verifica se o rotulo comeca com numero
+
+
             if(ope != "section") {
                 for(auto sim: ops) {
                     if(!helper::checkSymbol(sim, ts)) {
                         std::cout << "erro, simbolo " << sim << " nao definido" << std::endl;
                         err.emplace_back("semantico", "simbolo " + sim + " nao definido na linha " + std::to_string(linecount));
+                    }
+                    if(sim[0] >= '0' and sim[0] <= '9'){
+                        std::cout << "entrou2" << std::endl;
+                        err.emplace_back("lexico", "simbolo comeca com numero, o simbolo " + sim +
+                        " na linha " + std::to_string(linecount));
+                    }else if(helper::checkSim(sim)){//verifica se o Simulo possui algum caracter especial
+                    std::cout << "entrou3" << std::endl;
+                    err.emplace_back("lexico", "uso invalido de caracteres no simbolo " + sim + 
+                            " na linha " + std::to_string(linecount));
                     }
                 }
             }

@@ -203,7 +203,7 @@ namespace helper {
         return false;
     }
 
-    bool checkRot(std::string s){
+    bool checkSim(std::string s){
         for(char c: s){
             bool flag = true;
             //se for alguma letra do alfabeto, numero ou "_" a letra eh valida para o roluto, se nao ela n eh valida e retorna true
