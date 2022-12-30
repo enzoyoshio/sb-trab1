@@ -59,7 +59,7 @@ decimal)~~ -> fiz mas tem que testar
 
 - Instrução ou diretiva inexistente -> mesma coisa acima
 
-- Erros léxicos (caracteres especiais ou número iniciando nos rótulos) -> faustino
+- Erros léxicos (caracteres especiais ou número iniciando nos rótulos) -> feito, mas tem q testar
 
 **OBS: devemos indicar se o erro é LÉXICO, SINTÁTICO OU SEMÂNTICO**
 
