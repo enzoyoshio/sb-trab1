@@ -68,7 +68,6 @@ namespace processa_objeto {
         this->vazio = 0;
     }
 
-    // fazer check aqui lexico
     Line::Line(std::string s) {
         *this = Line();
 
@@ -120,7 +119,7 @@ namespace processa_objeto {
         this->operacao = helper::trim(helper::tolower(this->operacao));
         for(auto &it: this->operadores)
             it = helper::trim(helper::tolower(it));
-        //FAZER ERRO LEXIO
+        //FAZER ERRO LEXICO
         // this->print();
     }
 
