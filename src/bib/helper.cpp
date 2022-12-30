@@ -187,4 +187,35 @@ namespace helper {
         std::cout << "WIP" << std::endl;
         return -1;
     }
+
+    bool checkSymbol(std::string s, std::map<std::string, int> ts) {
+        // se a string for um simbolo
+        if(ts.find(s) != ts.end()) return true;
+        // se for um literal
+        if(isnumber(s)) return true;
+
+        // se for um vetor estilo X+2
+        std::vector<std::string> v = parser(s, '+');
+        if(v.size() != 2) return false;
+
+        if(ts.find(v[0]) != ts.end() && isdigit(v[1])) return true;
+
+        return false;
+    }
+
+    bool isnumber(std::string s) {
+        if(s == "") return false;
+
+        if(s[0] == '+' && isdigit(s.substr(1))) return true;
+        if(s[0] == '-' && isdigit(s.substr(1))) return true;
+        if(s.substr(0, 2) == "0x" && isdigit(s.substr(2))) return true;
+        return isdigit(s);
+    }
+
+    bool isdigit(std::string s) {
+        for(auto ch: s)
+            if(!std::isdigit(ch))
+                return false;
+        return true;
+    }
 }

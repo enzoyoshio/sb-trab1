@@ -37,6 +37,8 @@ namespace helper {
 
 
     // se der tempo, fazer funcao para computar uma expressao
-    int compute(std::string);
-    
+    int compute(std::string s);
+    bool checkSymbol(std::string s, std::map<std::string, int> ts);
+    bool isnumber(std::string s);
+    bool isdigit(std::string s);
 }

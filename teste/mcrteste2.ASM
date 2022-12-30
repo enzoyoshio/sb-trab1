@@ -1,11 +1,11 @@
 ; teste pra ver se uma macro consegue chamar outra macro
 
 section text
-swap: macro &a &b &c
-copy &a &c
-copy &b &a
+swap: macro &a,&b,&c
+copy &a,&c
+copy &b,&a
 mul_n
-copy &c &b
+copy &c,&b
 endmacro
 
 mul_n: macro
