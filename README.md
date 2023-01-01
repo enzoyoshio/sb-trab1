@@ -72,3 +72,5 @@ decimal)~~ -> fiz mas tem que testar
 - nas definições de macro, definimos os argumentos por virgula
 
 - mas na chamada de macro não tem virgula
+
+- pela nossa interpretação da linguagem, estamos considerando o comando de multiplicação como sendo "mul" como está na tabela de slide, e não "mult" como usado no exemplo do trabalho, como acreditamos que isso não faça muita diferença para o objetivo final do trabalho, mantivemos desse jeito. Porém se for melhor para rodar testes, é bastante simples mudar isso. (Aliás, será que a gente deixa implementado para aceitar os dois comandos?)
