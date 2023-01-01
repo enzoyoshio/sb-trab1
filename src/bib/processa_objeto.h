@@ -18,6 +18,10 @@ namespace processa_objeto {
 
     };
 
+    // struct Line
+    // baseado que toda linha possui o formato
+    // <rotulo>: <operador> <operandos> ; <comentarios>
+    // em que <operandos> podem ser 0 ate 3 operandos
     struct Line {
         std::string rotulo;
         std::string operacao;
@@ -34,6 +38,7 @@ namespace processa_objeto {
         Line(std::string s);
     };
 
+    // struct para representar um montador
     struct Montador {
 
         int contador_linha;
@@ -91,9 +96,14 @@ namespace processa_objeto {
     };
 
     void print();
-    
+
+    // faz a montagem do programa    
     void processa(std::string filename);
+
+    // faz a primeira passagem
     Montador passagem1(std::string filename);
+
+    // faz a segunda passagem
     void passagem2(std::string filename, Montador m);
 
 }

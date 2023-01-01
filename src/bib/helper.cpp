@@ -2,7 +2,6 @@
 
 namespace helper {
 
-    //pega os tokens
     std::vector<std::string> get_tokens(std::ifstream &file) {
         std::string line;
         getline(file, line);
@@ -12,7 +11,6 @@ namespace helper {
         return tokens;
     }
 
-    //ARRUMAR
     std::vector<std::string> parser(std::string s, char c) {
         std::stringstream check(s);
         std::string aux;
@@ -26,7 +24,6 @@ namespace helper {
         return ret;
     }
 
-    //remove os comentarios
     std::vector<std::string> remove_comments(std::vector<std::string> tokens) {
         int idx = tokens.size();
 
@@ -72,35 +69,30 @@ namespace helper {
         return ret;
     }
 
-    //tolower para strings
     std::string tolower(std::string s) {
         std::string ret = "";
         for(auto ch: s) ret += std::tolower(ch);
         return ret;
     }
 
-    //tolower para vetor de string
     std::vector<std::string> tolower(std::vector<std::string> s) {
         std::vector<std::string> ret;
         for(auto word: s) ret.push_back(helper::tolower(word));
         return ret;
     }
 
-    //toupper para strings
     std::string toupper(std::string s) {
         std::string ret = "";
         for(auto ch: s) ret += std::toupper(ch);
         return ret;
     }
 
-    //toupper para vetor de string
     std::vector<std::string> toupper(std::vector<std::string> s) {
         std::vector<std::string> ret;
         for(auto word: s) ret.push_back(helper::toupper(word));
         return ret;
     }
 
-    //converte hexadecimal para inteiro
     int str2num(std::string s) {
         if(s.substr(0, 2) == "0x") {
             std::stringstream ss(s);
@@ -110,7 +102,6 @@ namespace helper {
         }else return stoi(s);
     }
 
-    //pega proxima linha valida
     std::vector<std::string> get_next_valid_line(std::ifstream &file) {
         std::string s;
         std::vector<std::string> tokens;
@@ -121,7 +112,6 @@ namespace helper {
         return tokens;
     }
 
-    //atualiza ARRUMAR
     std::vector<std::string> update_arg(std::vector<std::string> v, std::map<std::string, int> indexOf) {
         std::vector<std::string> ret;
 
@@ -135,13 +125,13 @@ namespace helper {
         return ret;
     }
 
-    //remove espacos
     std::string ltrim(std::string s) {
         std::reverse(s.begin(), s.end());
         while(s.size() && s.back() == ' ') s.pop_back();
         std::reverse(s.begin(), s.end());
         return s;
     }
+
     std::string rtrim(std::string s) {
         while(s.size() && s.back() == ' ') s.pop_back();
         return s;
@@ -149,34 +139,6 @@ namespace helper {
 
     std::string trim(std::string s) {
         return ltrim(rtrim(s));
-    }
-
-    // de acordo com a especificacao 
-    // nao vai ter erro na macro
-    std::vector<std::string> get_macro_line(std::string s) {
-        std::vector<std::string> ret;
-        
-        // pega primeiro o label
-        std::vector<std::string> token = parser(s, ':');
-        ret.push_back(token[0]);
-
-        // separa a macro e args
-        token = parser(token[1], ' ');
-        ret.push_back(token[0]);
-
-        std::string args = "";
-        for(int i = 1; i < token.size(); i++) args += token[i] + " ";
-        token = parser(args, ',');
-        for(auto& it: token)
-            ret.push_back(trim(it));
-        return ret;
-    }
-
-
-
-    int compute(std::string s) {
-        std::cout << "WIP" << std::endl;
-        return -1;
     }
 
     bool checkSymbol(std::string s, std::map<std::string, int> ts) {
@@ -208,7 +170,6 @@ namespace helper {
         return false;
     }
 
-    //isnumber para string
     bool isnumber(std::string s) {
         if(s == "") return false;
         if(s[0] == '+' && isdigit(s.substr(1))) return true;
@@ -217,7 +178,6 @@ namespace helper {
         return isdigit(s);
     }
 
-    //isdigit para string //  QUAL a  diferenca do  is number pra is digit nesse caso? ARRUMAR
     bool isdigit(std::string s) {
         for(auto ch: s)
             if(!std::isdigit(ch))
