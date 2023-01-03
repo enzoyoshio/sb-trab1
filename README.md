@@ -1,5 +1,7 @@
 # sb-trab1
-trabalho 1 da disciplina de Software Básico da UnB 2022.2
+
+Trabalho 1 da disciplina de Software Básico da UnB 2022.2 ministrado pelo professor Bruno Luigi
+
 Feito por Enzo Yoshio Niho(190027304) e Gabriel Faustino Lima da Rocha(190013249)
 
 
