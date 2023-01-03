@@ -1,47 +1,50 @@
 #include "need.h"
 
 namespace processa_macro {
-    //mensagem para alertar que o processamento da macro ocorreu
 
-    //ARRUMAR, precisa desse cout e do "arquivo inexistente :("?
     void print() {
         std::cout << "processando macro :)" << std::endl;
     }
 
     void processa(std::string filename) {
 
-        //pega o nome do arquivo e adiciona a extensao
+        // abre o filename com a extensao .PRE
         std::string finput = filename + ".PRE";
         std::ifstream fileinput(finput);
 
-        //se nao houver arquivo, ou ele n estiver aberto
+        // Se o ifstream nao conseguir abrir o arquivo
         if(!fileinput.is_open()) {
             std::cout << "Arquivo inexistente :(" << std::endl;
             return;
         }
-        //pega o nome do arquivo e adiciona a extensao
 
+        // abrindo/criando o arquivo destino
         std::string foutput = filename + ".MCR";
         std::ofstream fileoutput(foutput);
 
+        // maps para guardar MNT e MDT
         std::map<std::string, int> MNT;
         std::map<int, std::vector<processa_objeto::Line>> MDT;
 
+        // contador para indexar as macros
         int counter = 0;
-        int db = 0;
-        std::string line;
+        // struct Line representando linha
         processa_objeto::Line linha;
+
+        // enquanto houver linhas para ler
         while(linha.read(fileinput)) {
+
             //se a linha for vazia
             if(linha.empty()) continue;
 
-            // definicao de macro 
+            // processa se for uma definicao de macro 
             if(linha.operacao == "macro")
                 save_macro(fileinput, MNT, MDT, counter, linha);
-            // chamado de macro
+            // processa se for um chamado de macro
             else if(MNT.find(linha.operacao) != MNT.end())
                 flush_macro(fileinput, fileoutput, MNT, MDT, linha);
             // comando nao envolvendo macro
+            // apenas imprime a linha
             else
                 linha.flush(fileoutput);
         }
@@ -50,8 +53,6 @@ namespace processa_macro {
         
     }
 
-    // salva o macro nas tabelas MNT e MDT
-    //ARRUMAR
     void save_macro(std::ifstream &fileinput, 
                      std::map<std::string, int> &MNT,
         std::map<int, std::vector<processa_objeto::Line>> &MDT, 
@@ -74,7 +75,6 @@ namespace processa_macro {
         }
     }
 
-    // changes macro caller for its definition ARRUMAR
     void flush_macro(std::ifstream &inputfile, 
                      std::ofstream &outputfile, 
                      std::map<std::string, int> MNT,

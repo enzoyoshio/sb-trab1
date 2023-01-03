@@ -1,5 +1,5 @@
-//ir adicionando os headers aqui
-//arquivo para colocar os header necssarios  para evitar repeticao
+// arquivo para colocar os header necssarios 
+// para evitar repeticao
 #pragma once
 #include "helper.h"
 #include <iostream>
