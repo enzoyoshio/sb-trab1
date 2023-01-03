@@ -4,6 +4,7 @@ Trabalho 1 da disciplina de Software Básico da UnB 2022.2 ministrado pelo profe
 
 Feito por Enzo Yoshio Niho(190027304) e Gabriel Faustino Lima da Rocha(190013249)
 
+O sistema operacional utilizado foi o Ubuntu 20. 
 
 ## instruções para executar o montador
 
