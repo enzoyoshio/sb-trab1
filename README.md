@@ -1,5 +1,7 @@
 # sb-trab1
 trabalho 1 da disciplina de Software Básico da UnB 2022.2
+Feito por Enzo Yoshio Niho(190027304) e Gabriel Faustino Lima da Rocha(190013249)
+
 
 ## instruções para executar o montador
 
