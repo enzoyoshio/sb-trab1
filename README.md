@@ -19,7 +19,7 @@ Após isso, use o comando:
 
 Em que "x" tem que ser p, m ou o e "program" é o nome do código fonte sem a extensão asm.
 
-Primeiro deve-se usar -p e -m para então usar o -o, caso o contrário o programa não encontrará o arquivo para compilar
+Primeiro deve-se usar -p para gerar o arquivo pré processaod, em seguida compilar com -m para gerar o código sem macros e por fim usar o -o para produzir o código de máquina, como está na especificação do projeto. 
 
 ## requisitos
 
@@ -59,4 +59,4 @@ decimal)
 
 - mas na chamada de macro não tem virgula
 
-- pela nossa interpretação da linguagem, estamos considerando o comando de multiplicação como sendo "mul" como está na tabela de slide, e não "mult" como usado no exemplo do trabalho, como acreditamos que isso não faça muita diferença para o objetivo final do trabalho, mantivemos desse jeito. Porém se for melhor para rodar testes, é bastante simples mudar isso. (Aliás, será que a gente deixa implementado para aceitar os dois comandos?)
+- pela nossa interpretação da linguagem, estamos considerando o comando de multiplicação como sendo "mul" como está na tabela de slide, e não "mult" como usado no exemplo do trabalho, como acreditamos que isso não faça muita diferença para o objetivo final do trabalho, mantivemos desse jeito. Porém se for melhor para rodar testes, é bastante simples mudar isso. 
